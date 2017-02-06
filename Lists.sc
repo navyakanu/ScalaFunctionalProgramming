@@ -3,15 +3,7 @@
 object Session {
 
 
-  def myReduce(xs: List[Int]): Int = {
 
-    if (xs.isEmpty) return 0
-    else
-      (xs.head) + myReduce(xs.tail)
-
-  }
-
-  myReduce(List(1,4,5,6))
 
 
 
@@ -64,4 +56,53 @@ object Session {
 
   myfilter(findEvenNumbers,List(12,13,14,15,16))
 
+
+  def myReduce(xs: List[Int]): Int = {
+
+    if (xs.isEmpty) return 0
+    else
+      (xs.head) + myReduce(xs.tail)
+
+  }
+
+
+
+
+  myReduce(List(1,4,5,6))
+
+
+
+
+  // Take -- Takes first n elements
+
+
+  def myTake(n: Int, xs: List[Int]):List[Int] = {
+
+
+  }
+
+
+
+
+
+
+  //Takewhile --
+
+
+
+  //drop
+
+
+
+  //zip fn List List
+
+
+
+
+
+
 }
+
+
+
+
