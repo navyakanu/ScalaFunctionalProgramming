@@ -1,3 +1,5 @@
+import sun.invoke.empty.Empty
+
 object Session {
 
   //************************* HangMan(To get a hang of functional programming in scala *******************
@@ -22,59 +24,48 @@ object Session {
     3) Work on efficiency of CompareEleement*/
 
 
-
-
-
-
-
-
   def CompareElement(ElementToFind: String, ElementExpected: String, x: String): String = {
-    if (ElementExpected.equalsIgnoreCase(x))
-      return ElementExpected
-    else {
-      return ElementToFind
+    x match {
+      case  ElementExpected => return ElementExpected
+      case _  => return ElementToFind
     }
   }
 
   def findMatch(x: String, actualList: List[String], expectedList: List[String]): List[String] = {
-    if (actualList.isEmpty)
-      return List.empty
-    else {
-      return CompareElement(actualList.head, expectedList.head, x) :: findMatch( x, actualList.tail, expectedList.tail)
+    actualList match  {
+      case  Nil =>   return List.empty
+      case  _ =>    return CompareElement(actualList.head, expectedList.head, x) :: findMatch( x, actualList.tail, expectedList.tail)
     }
   }
 
   def HangMan( x: String, actlist: List[String], explist: List[String], count: Int): List[String] = {
-
-    if (count < 1 || !actlist.contains("$")) {
-      return actlist
-    }
-    else {
-      println("Number of attempts remaining  =  ", count,  " to solve  = ")
-      print(actlist mkString("    "))
-      val input_read = readLine("\n Enter next letter  and press enter \n")
-      print("You entered  = ", input_read)
-      val fm = findMatch(input_read, actlist, explist)
-       if (fm.equals(actlist))
-           return HangMan(input_read, findMatch(input_read, actlist, explist), explist, count-1)
-       else
-         return HangMan(input_read, findMatch(input_read, actlist, explist), explist, count)
-
+    count match {
+      case 0 => return actlist
+      case _ => `actlist` match {
+        case `explist` => return actlist
+        case _ => println("Number of attempts remaining  =  ", count, " to solve  = ")
+          print(actlist mkString ("    "))
+          val input_read = readLine("\n Enter next letter  and press enter \n")
+          print("You entered  = ", input_read)
+          val fm = findMatch(input_read, actlist, explist)
+          fm match {
+            case `actlist` => return HangMan(input_read, findMatch(input_read, actlist, explist), explist, count - 1)
+            case _ => return HangMan(input_read, findMatch(input_read, actlist, explist), explist, count)
+          }
+      }
     }
   }
 
-  def Game(result : List[String],displayedList: List[List[String]],expectedList:List[List[String]],n:Int):List[String] = {
 
-    if (result.contains("$")|| n < 0) {
-      println("Game Over !! ")
-      return result
-    }
-    else {
-      print("\n")
-      return Game( HangMan(" ", displayedList(n), expectedList(n), 6),questions,answers,n-1)
-    }
+    def Game(result : List[String],displayedList: List[List[String]],expectedList:List[List[String]],n:Int):List[String] = {
 
-  }
+      n match {
+        case -1 => println("Game Over!!")
+                  return result
+        case _ => print("\n")
+          return Game(HangMan(" ", displayedList(n), expectedList(n), 6), questions, answers, n - 1)
+      }
+    }
 
 
 
@@ -87,11 +78,6 @@ object Session {
                       List("C","A","M","P","A","I","G","N"),
                       List("C","O","M","B","A","T"),
                       List("C","O","M","E"))
-
-
-
-
-
   val questions = List(List("C","$","N","S","$","A","N","$","I","N","$","$","$","E"),
                       List("C","$","N","$","E","R","$","A","$","I","$","E"),
                       List("C","A","$","$","A","I","$","N"),
